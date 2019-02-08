@@ -28,10 +28,10 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             }
     
             if (smsBody.startsWith(SmsHelper.SMS_CONDITION)) {
-                Log.d(TAG, "Sms with condition detected");
+                Log.e(TAG, "Sms with condition detected");
                 Toast.makeText(context, "BroadcastReceiver caught conditional SMS: " + smsBody, Toast.LENGTH_LONG).show();
             }
-            Log.d(TAG, "SMS detected: From " + smsSender + " With text " + smsBody);
+            Log.e(TAG, "SMS detected: From " + smsSender + " With text " + smsBody);
         }
     }
 }
