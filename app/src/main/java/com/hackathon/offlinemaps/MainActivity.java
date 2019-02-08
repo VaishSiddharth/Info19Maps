@@ -22,11 +22,6 @@ import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.hackathon.offlinemaps.SmsUtils.AppSignatureHelper;
-import com.hackathon.offlinemaps.SmsUtils.SmsHelper;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -73,10 +68,7 @@ public class MainActivity extends AppCompatActivity {
     
     public void smsretriever()
     {
-    
-        AppSignatureHelper appSignatureHelper = new AppSignatureHelper(this);
         
-        Log.e(TAG, "The sigs are "+  appSignatureHelper.getAppSignatures());
         // Get an instance of SmsRetrieverClient, used to start listening for a matching
         // SMS message.
         SmsRetrieverClient client = SmsRetriever.getClient(this /* context */);
