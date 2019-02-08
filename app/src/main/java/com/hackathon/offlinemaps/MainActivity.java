@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         });
         
         smsCode();
+        startActivity(new Intent(MainActivity.this, DirectionActivity.class));
 
     }
     
