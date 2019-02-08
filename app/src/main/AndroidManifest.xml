@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".DirectionActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".FrontEnd.PaperOnboardingActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".FrontEnd.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
