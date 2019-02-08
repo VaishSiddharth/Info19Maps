@@ -28,7 +28,7 @@ public class MySMSBroadcastReceiver extends BroadcastReceiver {
                 case CommonStatusCodes.SUCCESS:
                     // Get SMS message contents
                     String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
-                    Log.e("MySMSBroadcastReceiver","Success in mysms");
+                    Log.e("MySMSBroadcastReceiver","Success in mysms "+message);
                     //extras.putString("message",message);
                     // Extract one-time code from the message and complete verification
                     // by sending the code back to your server.
