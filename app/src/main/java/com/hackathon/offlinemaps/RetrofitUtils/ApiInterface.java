@@ -14,4 +14,5 @@ public interface ApiInterface {
     Call<ModelAllResults> getAllDirectionData(@Query("origin") String startLocation, @Query("destination")
             String endLocation , @Query("key") String key);
     
+    
 }

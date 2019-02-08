@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.Status;
+import com.hackathon.offlinemaps.SmsUtils.SmsHelper;
 
 /**
  * BroadcastReceiver to wait for SMS messages. This can be registered either
@@ -29,6 +30,13 @@ public class MySMSBroadcastReceiver extends BroadcastReceiver {
                     // Get SMS message contents
                     String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
                     Log.e("MySMSBroadcastReceiver","Success in mysms "+message);
+    
+                    if (message != null && message.startsWith(SmsHelper.SMS_CONDITION)) {
+                       // Log.e("MySMSBroadcastReceiver", "Sms with condition detected");
+                        intent = new Intent(context, DirectionActivity.class);
+                        intent.putExtra("smsbody", message);
+                        context.startActivity(intent);
+                    }
                     //extras.putString("message",message);
                     // Extract one-time code from the message and complete verification
                     // by sending the code back to your server.

@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.hackathon.offlinemaps.SmsUtils.AppSignatureHelper;
 import com.hackathon.offlinemaps.SmsUtils.SmsHelper;
 
 import java.util.regex.Matcher;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SmsHelper.sendDebugSms(String.valueOf("9458162424"), SmsHelper.SMS_CONDITION + " This SMS is conditional, Hello toast");
+               smsretriever();
     
             }
         });
@@ -72,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
     
     public void smsretriever()
     {
+    
+        AppSignatureHelper appSignatureHelper = new AppSignatureHelper(this);
+        
+        Log.e(TAG, "The sigs are "+  appSignatureHelper.getAppSignatures());
         // Get an instance of SmsRetrieverClient, used to start listening for a matching
         // SMS message.
         SmsRetrieverClient client = SmsRetriever.getClient(this /* context */);

@@ -95,10 +95,9 @@ public class DirectionActivity extends AppCompatActivity {
 
                     for ( String message : finalMessage)
                     {
-                        SmsHelper.sendDebugSms(String.valueOf("9149386335"), SmsHelper.SMS_CONDITION + " "+message);
+                        SmsHelper.sendDebugSms(String.valueOf("8765114937"), SmsHelper.SMS_CONDITION + " "+message);
                     }
-
-                    Log.e(TAG, "The length of steps is "+steps.size());
+                    
 
                 }
             }
