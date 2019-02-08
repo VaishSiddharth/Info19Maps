@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OffDir</string>
+    <string name="permission_alert_dialog_title">Permission Alert</string>
+    <string name="permission_dialog_message">Request Permission</string>
 </resources>
