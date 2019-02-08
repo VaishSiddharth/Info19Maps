@@ -1,10 +1,12 @@
 package com.hackathon.offlinemaps;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hackathon.offlinemaps.RetrofitUtils.ApiClient;
 import com.hackathon.offlinemaps.RetrofitUtils.ApiInterface;
@@ -14,6 +16,8 @@ import com.hackathon.offlinemaps.SmsUtils.SmsHelper;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,9 +40,34 @@ public class DirectionActivity extends AppCompatActivity {
     private void getDirections() {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
-        
-        
-        Call<ModelAllResults> call = apiService.getAllDirectionData("iiitm campus", "dd mall", API_KEY);
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("smsbody");
+        Log.e(TAG,message);
+        List<String> tokens = new ArrayList<String>();
+        int startindex=0;
+        int endindex=0;
+        String startloc="";
+        String endloc="";
+        StringTokenizer st = new StringTokenizer(message);
+
+        //("---- Split by space ------");
+        while (st.hasMoreElements()) {
+            tokens.add(st.nextElement().toString());
+        }
+        for(int i=0;i<tokens.size();i++){
+            if(tokens.get(i).equalsIgnoreCase("START"))
+                startindex=i;
+            if(tokens.get(i).equalsIgnoreCase("END"))
+                endindex=i;
+        }
+        for (int i=startindex+1;i<endindex;i++) {
+            startloc=startloc+tokens.get(i)+" ";
+        }
+        for (int i=endindex+1;i<tokens.size();i++) {
+            endloc=endloc+tokens.get(i)+" ";
+        }
+        Toast.makeText(getApplicationContext(),startloc+"    "+endloc,Toast.LENGTH_LONG).show();
+        Call<ModelAllResults> call = apiService.getAllDirectionData(startloc, endloc, API_KEY);
         Log.e("TestActivity", "Reached getPlaces ");
         call.enqueue(new Callback<ModelAllResults>() {
             @Override
@@ -66,7 +95,7 @@ public class DirectionActivity extends AppCompatActivity {
 
                     for ( String message : finalMessage)
                     {
-                        SmsHelper.sendDebugSms(String.valueOf("8765114937"), SmsHelper.SMS_CONDITION + " "+message);
+                        SmsHelper.sendDebugSms(String.valueOf("9149386335"), SmsHelper.SMS_CONDITION + " "+message);
                     }
 
                     Log.e(TAG, "The length of steps is "+steps.size());

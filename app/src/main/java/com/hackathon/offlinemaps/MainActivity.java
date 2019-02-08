@@ -47,16 +47,25 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SmsHelper.sendDebugSms(String.valueOf("8765114937"), SmsHelper.SMS_CONDITION + " This SMS is conditional, Hello toast");
+                SmsHelper.sendDebugSms(String.valueOf("9458162424"), SmsHelper.SMS_CONDITION + " This SMS is conditional, Hello toast");
     
             }
         });
         
         smsCode();
-        startActivity(new Intent(MainActivity.this, DirectionActivity.class));
+
+        //startActivity(new Intent(MainActivity.this, DirectionActivity.class));
 
     }
-    
+
+    public void incoming(){
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("smsbody");
+        Log.e(TAG,message);
+
+
+    }
+
     private void smsCode() {
     
     }
