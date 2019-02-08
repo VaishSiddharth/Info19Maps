@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.hackathon.offlinemaps.RetrofitUtils.ApiClient;
 import com.hackathon.offlinemaps.RetrofitUtils.ApiInterface;
 import com.hackathon.offlinemaps.RetrofitUtils.ModelAllResults;
+import com.hackathon.offlinemaps.RetrofitUtils.ModelAllResultsAutoPlaces;
+import com.hackathon.offlinemaps.RetrofitUtils.ModelDescription;
 import com.hackathon.offlinemaps.RetrofitUtils.ModelSteps;
 import com.hackathon.offlinemaps.SmsUtils.SmsHelper;
 
@@ -38,11 +40,15 @@ public class DirectionActivity extends AppCompatActivity {
     }
     
     private void getDirections() {
-        ApiInterface apiService =
+
+
+        final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         Intent intent = getIntent();
         String message = intent.getStringExtra("smsbody");
         Log.e(TAG,message);
+
+        //code to extract start and end location
         List<String> tokens = new ArrayList<String>();
         int startindex=0;
         int endindex=0;
@@ -66,7 +72,84 @@ public class DirectionActivity extends AppCompatActivity {
         for (int i=endindex+1;i<tokens.size();i++) {
             endloc=endloc+tokens.get(i)+" ";
         }
-        Toast.makeText(getApplicationContext(),startloc+"    "+endloc,Toast.LENGTH_LONG).show();
+        //code of extract ENDED
+
+
+        //code for autocomplete places
+        Call<ModelAllResultsAutoPlaces> callplace=apiService.getAllAutoCompleteData(startloc,API_KEY);
+        final String finalStartloc = startloc;
+        final String finalEndloc = endloc;
+        callplace.enqueue(new Callback<ModelAllResultsAutoPlaces>() {
+            @Override
+            public void onResponse(Call<ModelAllResultsAutoPlaces> call2, Response<ModelAllResultsAutoPlaces> response) {
+                ArrayList<ModelDescription> predictions=response.body().getPredictions();
+                ArrayList<String> predict=new ArrayList<>();
+                for(ModelDescription description:predictions)
+                {
+                    predict.add(description.getDescription());
+                }
+                if(predict.size()==1){
+                    //add code for directions send
+                    Toast.makeText(getApplicationContext(), finalStartloc +"    "+ finalEndloc,Toast.LENGTH_LONG).show();
+                    Call<ModelAllResults> call = apiService.getAllDirectionData(finalStartloc, finalEndloc, API_KEY);
+                    Log.e("TestActivity", "Reached getPlaces ");
+                    call.enqueue(new Callback<ModelAllResults>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ModelAllResults> call, Response<ModelAllResults> response) {
+                            if (response.body() != null) {
+                                Log.e("TestActivity", String.valueOf(response.body().getRoute().get(0).getLegs().get(0).getSteps().get(0).getHtmlInstructions()));
+
+                                ArrayList<ModelSteps> steps = response.body().getRoute().get(0).getLegs().get(0).getSteps();
+                                ArrayList<String> finalMessage = new ArrayList<>();
+
+                                ArrayList<String> htmlInstruction = new ArrayList<>();
+                                for ( ModelSteps step: steps)
+                                {
+                                    htmlInstruction.add(step.getHtmlInstructions());
+                                    Log.e(TAG,  (Html.fromHtml(Html.fromHtml(step.getHtmlInstructions()).toString()))+"\n\n");
+                                    Log.e(TAG, String.valueOf(step.getDistance().get("text"))+"\n");
+
+                                    String htmlText = String.valueOf(Html.fromHtml(Html.fromHtml(step.getHtmlInstructions()).toString()));
+                                    String distance = String.valueOf(step.getDistance().get("text"));
+
+                                    String finalString = htmlText+" for "+distance+" then";
+                                    finalMessage.add(finalString);
+
+                                }
+
+                                for ( String message : finalMessage)
+                                {
+                                    SmsHelper.sendDebugSms(String.valueOf("9149386335"), SmsHelper.SMS_CONDITION + " "+message);
+                                }
+
+                                Log.e(TAG, "The length of steps is "+steps.size());
+
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ModelAllResults> call, Throwable t) {
+                            Log.e("TestActivity", t.toString());
+                        }
+
+                    });
+                }
+                else{
+                    for ( String message : predict)
+                    {
+                        SmsHelper.sendDebugSms(String.valueOf("9149386335"), SmsHelper.SMS_CONDITION + "Type in a little more detail\n"+message);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ModelAllResultsAutoPlaces> call, Throwable t) {
+
+            }
+        });
+
+
+        //directions send code
+        /*Toast.makeText(getApplicationContext(),startloc+"    "+endloc,Toast.LENGTH_LONG).show();
         Call<ModelAllResults> call = apiService.getAllDirectionData(startloc, endloc, API_KEY);
         Log.e("TestActivity", "Reached getPlaces ");
         call.enqueue(new Callback<ModelAllResults>() {
@@ -106,6 +189,6 @@ public class DirectionActivity extends AppCompatActivity {
                 Log.e("TestActivity", t.toString());
             }
             
-        });
+        });*/
     }
 }
