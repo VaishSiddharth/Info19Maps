@@ -9,6 +9,9 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hackathon.offlinemaps.DirectionActivity;
+import com.hackathon.offlinemaps.MainActivity;
+
 /**
  * A broadcast receiver who listens for incoming SMS
  */
@@ -30,6 +33,9 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             if (smsBody.startsWith(SmsHelper.SMS_CONDITION)) {
                 Log.e(TAG, "Sms with condition detected");
                 Toast.makeText(context, "BroadcastReceiver caught conditional SMS: " + smsBody, Toast.LENGTH_LONG).show();
+                intent = new Intent(context, DirectionActivity.class);
+                intent.putExtra("smsbody", smsBody);
+                context.startActivity(intent);
             }
             Log.e(TAG, "SMS detected: From " + smsSender + " With text " + smsBody);
         }
