@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.hackathon.offlinemaps.SmsUtils.AppSignatureHelper;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         });
         
         smsCode();
+
+        AppSignatureHelper helper = new AppSignatureHelper(this);
+        Log.e(TAG, String.valueOf(helper.getAppSignatures().get(0)));
 
         //startActivity(new Intent(MainActivity.this, DirectionActivity.class));
 

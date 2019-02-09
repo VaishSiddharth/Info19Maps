@@ -162,6 +162,7 @@ public class DirectionActivity extends AppCompatActivity {
                 } else {
                     for (String message : predict) {
                         SmsHelper.sendDebugSms(String.valueOf(CommonConst.number), SmsHelper.SMS_CONDITION + "Type in a little more detail\n" + message);
+
                     }
                 }
             }

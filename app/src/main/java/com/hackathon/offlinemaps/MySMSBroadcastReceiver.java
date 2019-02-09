@@ -36,6 +36,7 @@ public class MySMSBroadcastReceiver extends BroadcastReceiver {
                            // Log.e("MySMSBroadcastReceiver", "Sms with condition detected");
                             intent = new Intent(context, DirectionActivity.class);
                             intent.putExtra("smsbody", message);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         }
                         //extras.putString("message",message);
