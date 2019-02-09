@@ -2,4 +2,5 @@
     <string name="app_name">OffDir</string>
     <string name="permission_alert_dialog_title">Permission Alert</string>
     <string name="permission_dialog_message">Request Permission</string>
+    <string name="instruction"><![CDATA[Steps:\n1.Tap on the start listening button.\n2.Send a sms to 8765114937\n3.Sms format: <#> Start iiitm campus end hazira <#> 1VX4II6FyO7]]></string>
 </resources>
