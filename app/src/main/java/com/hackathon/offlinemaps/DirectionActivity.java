@@ -16,9 +16,12 @@ import com.hackathon.offlinemaps.RetrofitUtils.ModelAllResultsAutoPlaces;
 import com.hackathon.offlinemaps.RetrofitUtils.ModelDescription;
 import com.hackathon.offlinemaps.RetrofitUtils.ModelSteps;
 import com.hackathon.offlinemaps.SmsUtils.CommonConst;
+import com.hackathon.offlinemaps.SmsUtils.SendSmsAsycClass;
 import com.hackathon.offlinemaps.SmsUtils.SmsHelper;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -139,6 +142,7 @@ public class DirectionActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             SmsHelper.sendDebugSms(String.valueOf(CommonConst.number),   finalMessage.get(finalI));
+                                            //sendSMSTo(finalMessage.get(finalI));
                                         }
                                     }, 8000*i);
                                 }
@@ -150,6 +154,7 @@ public class DirectionActivity extends AppCompatActivity {
                         
                         @Override
                         public void onFailure(Call<ModelAllResults> call, Throwable t) {
+                            
                             Log.e("TestActivity", t.toString());
                         }
                         
@@ -166,7 +171,10 @@ public class DirectionActivity extends AppCompatActivity {
             
             }
         });
-        
+    
+       
+    
+    
         //directions send code
         /*Toast.makeText(getApplicationContext(),startloc+"    "+endloc,Toast.LENGTH_LONG).show();
         Call<ModelAllResults> call = apiService.getAllDirectionData(startloc, endloc, API_KEY);
@@ -209,5 +217,25 @@ public class DirectionActivity extends AppCompatActivity {
             }
             
         });*/
+    }
+    
+    private void sendSMSTo( String message) {
+    
+    
+    
+        try {
+            message = URLEncoder.encode(message, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    
+    
+        String URL = "https://smsapi.engineeringtgr.com/send/?Mobile=8765114937&Password=testing&Message=" + message + "&To="+CommonConst.number+"&Key=Aviha02Bp1LNXzeqGTbra";
+        
+        new SendSmsAsycClass().execute(URL);
+        
+        Log.e(TAG, "Sending SMS to " + CommonConst.number);
+        
+        
     }
 }
