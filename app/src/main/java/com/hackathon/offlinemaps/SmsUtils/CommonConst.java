@@ -1,5 +1,5 @@
 package com.hackathon.offlinemaps.SmsUtils;
 
 public class CommonConst {
-    public static String number = "8765114937";
+    public static String number = "9149386335";
 }

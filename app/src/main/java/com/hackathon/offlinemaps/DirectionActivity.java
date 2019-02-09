@@ -140,7 +140,7 @@ public class DirectionActivity extends AppCompatActivity {
                                         public void run() {
                                             SmsHelper.sendDebugSms(String.valueOf(CommonConst.number),   finalMessage.get(finalI));
                                         }
-                                    }, 5000*i);
+                                    }, 8000*i);
                                 }
                                 
                                 Log.e(TAG, "The length of steps is " + steps.size());
